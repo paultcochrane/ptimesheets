@@ -30,7 +30,7 @@ class Timesheet(object):
                 date,
                 timecard.notes,
                 timecard.tickets,
-                timecard.hours_worked,
+                "{0:.2f}".format(timecard.hours_worked),
                 ])
         csv_out = csv_fh.getvalue()
         csv_fh.close()
