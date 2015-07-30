@@ -25,6 +25,4 @@ class Timecard(object):
         self.notes = "".join([self.notes, notes])
         self.tickets = tickets
 
-# "{:02d}:{:02d}".format(int(t.seconds/3600), int((t.seconds%3600/60)))
-
 # vim: expandtab shiftwidth=4 softtabstop=4
