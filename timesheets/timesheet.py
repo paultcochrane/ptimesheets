@@ -24,6 +24,8 @@ class Timesheet(object):
     def to_csv(self):
         csv_fh = StringIO.StringIO()
         writer = csv.writer(csv_fh, quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        header = ["Date work", "Description", "Tickets", "Hours"]
+        writer.writerow(header)
         for date in self.dates():
             timecard = self.timecards[date]
             writer.writerow([

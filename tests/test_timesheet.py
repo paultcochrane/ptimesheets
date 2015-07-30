@@ -56,7 +56,8 @@ class TestTimesheet(unittest.TestCase):
         timecard.add(**item)
 
         timesheet_csv = self.timesheet.to_csv()
-        expected = "2015-06-01,did stuff,,8.50\r\n"
+        expected = "Date work,Description,Tickets,Hours\r\n"
+        expected += "2015-06-01,did stuff,,8.50\r\n"
         self.assertEqual(timesheet_csv, expected)
 
     def testToCsvReturnsCsvFormattedDataForTwoTimecards(self):
@@ -76,7 +77,8 @@ class TestTimesheet(unittest.TestCase):
         second_timecard.add(**second_item)
 
         timesheet_csv = self.timesheet.to_csv()
-        expected = "2015-06-01,did stuff,,8.50\r\n"
+        expected = "Date work,Description,Tickets,Hours\r\n"
+        expected += "2015-06-01,did stuff,,8.50\r\n"
         expected += "2015-06-02,did more stuff,#123,1.00\r\n"
         self.assertEqual(timesheet_csv, expected)
 
