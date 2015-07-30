@@ -20,10 +20,9 @@ class Timecard(object):
         self.hours_worked += hours_worked
 
         if type(notes) is list:
-            self.notes = notes[0]
-        else:
-            self.notes = notes
+            notes = notes[0]
 
+        self.notes = "".join([self.notes, notes])
         self.tickets = tickets
 
 # "{:02d}:{:02d}".format(int(t.seconds/3600), int((t.seconds%3600/60)))
