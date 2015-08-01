@@ -84,6 +84,13 @@ class TestTimecard(unittest.TestCase):
         self.timecard.add(**second_item)
         self.assertEqual(self.timecard.hours_worked, 4)
 
+    def testAddWithSameTimeSpecThrowsError(self):
+        with self.assertRaises(ValueError):
+            first_item = minimum_item(time_spec="09:00-11:00")
+            second_item = minimum_item(time_spec="09:00-11:00")
+            self.timecard.add(**first_item)
+            self.timecard.add(**second_item)
+
     def testAddWithTwoItemsFromSameDayAppendsNotesText(self):
         first_item = minimum_item(
                 time_spec="09:00-11:00",

@@ -6,11 +6,16 @@ class Timecard(object):
             self.date = date_string
         else:
             self.date = datetime.strptime(date_string, "%Y-%m-%d")
+        self.time_spec = None
         self.hours_worked = 0
         self.notes = ""
         self.tickets = ""
 
     def add(self, time_spec, notes, tickets=""):
+        if time_spec == self.time_spec:
+            error_message = "Repeated time spec found; please check input data"
+            raise ValueError(error_message)
+        self.time_spec = time_spec
         start_time, end_time = time_spec.split('-')
         start = datetime.strptime(start_time, "%H:%M")
         end = datetime.strptime(end_time, "%H:%M")
