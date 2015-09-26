@@ -14,15 +14,15 @@ Timesheets are YAML files with the following format:
     time_spec: 12:50-15:30
     tickets: "#181"
     notes:
-	- |
-	    - notes about work I've done in this time period
+        - |
+            - notes about work I've done in this time period
     ---
     date: 2015-09-24
     time_spec: 22:00-23:30
     tickets: "#23"
     notes:
-	- |
-	    - notes about work I did later in the same day
+        - |
+            - notes about work I did later in the same day
             - more info about work done in this time period
 
 Each entry is separated by a line containing only three hyphens `---`; the
