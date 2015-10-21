@@ -105,6 +105,48 @@ class TestTimecard(unittest.TestCase):
         self.assertEqual(self.timecard.notes,
             "first item notes\nsecond item notes\n")
 
+    def testAddWithTwoItemsFromSameDayAppendsTicketsText(self):
+        first_item = minimum_item(
+                time_spec="09:00-11:00",
+                tickets="#1234",
+                )
+        second_item = minimum_item(
+                time_spec="12:00-14:00",
+                tickets="#9876",
+                )
+        self.timecard.add(**first_item)
+        self.timecard.add(**second_item)
+        self.assertEqual(self.timecard.tickets,
+            "#1234,#9876")
+
+    def testAddWithTwoItemsFromSameDayAppendsUniqueTicketsTextSimple(self):
+        first_item = minimum_item(
+                time_spec="09:00-11:00",
+                tickets="#1234",
+                )
+        second_item = minimum_item(
+                time_spec="12:00-14:00",
+                tickets="#1234",
+                )
+        self.timecard.add(**first_item)
+        self.timecard.add(**second_item)
+        self.assertEqual(self.timecard.tickets,
+            "#1234")
+
+    def testAddWithTwoItemsFromSameDayAppendsUniqueTicketsTextComplex(self):
+        first_item = minimum_item(
+                time_spec="09:00-11:00",
+                tickets="#1234,#9876",
+                )
+        second_item = minimum_item(
+                time_spec="12:00-14:00",
+                tickets="#9876",
+                )
+        self.timecard.add(**first_item)
+        self.timecard.add(**second_item)
+        self.assertEqual(self.timecard.tickets,
+            "#1234,#9876")
+
     def testTimecardsWithDifferentDatesHaveIndependentData(self):
         tc1 = Timecard("2015-06-01")
         item1 = minimum_item(

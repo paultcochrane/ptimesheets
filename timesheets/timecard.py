@@ -28,6 +28,12 @@ class Timecard(object):
             notes = notes[0]
 
         self.notes = "".join([self.notes, notes])
-        self.tickets = tickets
+
+        # incoming "tickets" values could already contain commas, so get the
+        # initial data into a form we can always work with
+        new_tickets = ",".join(filter(None, [self.tickets, tickets]))
+        all_tickets = new_tickets.split(',')
+
+        self.tickets = ",".join(sorted(list(set(all_tickets))))
 
 # vim: expandtab shiftwidth=4 softtabstop=4
