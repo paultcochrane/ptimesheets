@@ -3,6 +3,7 @@
 
 import yaml
 import argparse
+import os.path
 
 from timesheets.timesheet import Timesheet
 
@@ -21,6 +22,12 @@ for item in timesheet_items:
     timecard.add(**item)
 
 timesheet_csv = timesheet.to_csv()
-print timesheet_csv
+timesheet_basename = os.path.basename(timesheet_yml_fname)
+timesheet_stem = os.path.splitext(timesheet_basename)[0]
+timesheet_csv_fname = timesheet_stem + '.csv'
+
+csv_fh = open(timesheet_csv_fname, 'w')
+csv_fh.write(timesheet_csv)
+csv_fh.close()
 
 # vim: expandtab shiftwidth=4 softtabstop=4
