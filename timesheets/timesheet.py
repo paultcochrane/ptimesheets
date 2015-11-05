@@ -39,4 +39,12 @@ class Timesheet(object):
 
         return csv_out
 
+    def total_hours_worked(self):
+        total_hours = 0.0
+        for date in self.dates():
+            timecard = self.timecards[date]
+            total_hours += timecard.hours_worked
+
+        return total_hours
+
 # vim: expandtab shiftwidth=4 softtabstop=4

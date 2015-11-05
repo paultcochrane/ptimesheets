@@ -17,6 +17,7 @@ yml_fh = open(timesheet_yml_fname)
 timesheet_items = yaml.load_all(yml_fh)
 
 timesheet = Timesheet()
+total_hours = 0.0
 for item in timesheet_items:
     timecard = timesheet.get_timecard(item.pop('date'))
     timecard.add(**item)
@@ -29,5 +30,7 @@ timesheet_csv_fname = timesheet_stem + '.csv'
 csv_fh = open(timesheet_csv_fname, 'w')
 csv_fh.write(timesheet_csv)
 csv_fh.close()
+
+print "Total hours: {0:.2f}".format(timesheet.total_hours_worked())
 
 # vim: expandtab shiftwidth=4 softtabstop=4
