@@ -2,8 +2,38 @@
 
 import csv
 import StringIO
+import codecs
 
 from timesheets.timecard import Timecard
+
+class UnicodeWriter:
+    """
+    A CSV writer which will write rows to CSV file "f",
+    which is encoded in the given encoding.
+    """
+
+    def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
+        # Redirect output to a queue
+        self.queue = StringIO.StringIO()
+        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
+        self.stream = f
+        self.encoder = codecs.getincrementalencoder(encoding)()
+
+    def writerow(self, row):
+        self.writer.writerow([s.encode("utf-8") for s in row])
+        # Fetch UTF-8 output from the queue ...
+        data = self.queue.getvalue()
+        data = data.decode("utf-8")
+        # ... and reencode it into the target encoding
+        data = self.encoder.encode(data)
+        # write to the target stream
+        self.stream.write(data)
+        # empty queue
+        self.queue.truncate(0)
+
+    def writerows(self, rows):
+        for row in rows:
+            self.writerow(row)
 
 class Timesheet(object):
     def __init__(self):
@@ -23,13 +53,13 @@ class Timesheet(object):
 
     def to_csv(self):
         csv_fh = StringIO.StringIO()
-        writer = csv.writer(csv_fh, quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer = UnicodeWriter(csv_fh, quotechar='"', quoting=csv.QUOTE_MINIMAL)
         header = ["Date work", "Description", "Tickets", "Hours"]
         writer.writerow(header)
         for date in self.dates():
             timecard = self.timecards[date]
             writer.writerow([
-                date,
+                str(date),
                 timecard.notes,
                 timecard.tickets,
                 "{0:.2f}".format(timecard.hours_worked),
